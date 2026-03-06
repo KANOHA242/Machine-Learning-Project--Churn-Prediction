@@ -28,21 +28,23 @@ The workflow includes:
 project-name
 │
 ├── data
-│   └── dataset.csv
+│   └── processed
+│   └── raw
 │
 ├── notebooks
 │   └── exploration.ipynb
 │
 ├── src
-│   ├── preprocessing.py
-│   ├── training.py
-│   └── evaluation.py
-│
-├── models
-│   └── trained_models.pkl
-│
-├── results
-│   └── figures
+│   ├── app.py
+│   ├── best_logistic_regression_model.pkl
+│   └── best_random_forest_model.pkl
+│   └── best_xgboost_model.pkl
+│   └── data_cleaning.py
+│   └── predict.py
+│   └── predictions_logistic_regression.csv
+│   └── predictions_xgboost.csv
+│   └── predictions.csv
+│   └── train.py
 │
 ├── README.md
 └── requirements.txt
@@ -52,7 +54,7 @@ project-name
 
 # Dataset
 
-The dataset contains multiple features describing observations used to predict the **target variable**.
+The dataset used is a Kaggle dataset named Telco-CustomerChurn, containing multiple features describing observations used to predict the **target variable**= Churn.
 
 Typical preprocessing steps:
 
@@ -61,27 +63,6 @@ Typical preprocessing steps:
 * Feature scaling (when necessary)
 * Train/test split
 
-Example:
-
-```python
-X = df.drop("target", axis=1)
-y = df["target"]
-```
-
-Train/Test split:
-
-```python
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
-)
-```
-
----
 
 # Models Implemented
 
@@ -191,27 +172,6 @@ Metrics used:
 * F1-score
 * Confusion Matrix
 
-Example:
-
-```python
-from sklearn.metrics import classification_report
-
-y_pred = best_model.predict(X_test)
-
-print(classification_report(y_test, y_pred))
-```
-
-Confusion matrix:
-
-```python
-from sklearn.metrics import confusion_matrix
-
-cm = confusion_matrix(y_test, y_pred)
-print(cm)
-```
-
----
-
 # Model Comparison
 
 | Model               | Accuracy    | Precision | Recall     | F1-score |
@@ -236,30 +196,6 @@ However, in a churn context, recall is the most critical metric — a missed chu
 143 false positives → loyal customers flagged as churners (lower impact)
 
 A recall of 61.5% means the model catches roughly 6 out of 10 customers at risk of churning.
-
-
-# Feature Importance
-
-Random Forest provides feature importance scores that help identify the most influential variables in the prediction.
-
-Example:
-
-```python
-import pandas as pd
-
-importance = best_model.feature_importances_
-
-feature_importance = pd.DataFrame({
-    "feature": X.columns,
-    "importance": importance
-}).sort_values(by="importance", ascending=False)
-
-print(feature_importance.head())
-```
-
-These insights help understand **which features contribute the most to the model's predictions**.
-
----
 
 # Key Insights
 
@@ -309,6 +245,9 @@ python -m streamlit run "src/app.py"
 ```
 ---
 
+You can also test the streamlit app via this link:
+https://machine-learning-project--churn-prediction-kehnj.streamlit.app/
+
 # Requirements
 
 Main libraries used:
@@ -321,6 +260,7 @@ scikit-learn
 matplotlib
 seaborn
 xgboost
+imbalanced-learn
 ```
 
 ## 👤 Author
