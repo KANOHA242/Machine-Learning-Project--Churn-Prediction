@@ -323,6 +323,10 @@ seaborn
 xgboost
 ```
 
-# Author
+## 👤 Author
+
 Project developed as part of a **Machine Learning / Data Science study project**.
+
+**[KANOHA ELENGA Jihane]**  
+📧 [jihanekanoha@gmail.com]
 
